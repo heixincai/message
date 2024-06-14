@@ -3,6 +3,7 @@ package com.message.util;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.message.utils.DingTalkUtils;
 import com.message.utils.SmsUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,4 +43,16 @@ public class MessageUtilTests {
 
         SmsUtil.sendSms(host, path, method, appcode, smsSignId, templateId, querys, bodys);
     }
+
+    @Test
+    public void sendDingTalk() throws Exception {
+        String robotCode = "ding0w30gk1ylta63hu6";
+        String mobile = "18054437640";
+        String appKey = "ding0w30gk1ylta63hu6";
+        String appSecret = "TXJn6unafN_higEJRwM7vP_4fRZdpLjDPAQa9XWCmsHAB4rWWCkGaS1F3kDcr0za";
+        String msgKey = "sampleMarkdown";
+        String content = "{\"text\": \"黑心菜你好，当前单据已经发布，请前往：gitlab.mingdutech.com处理\",\"title\": \"hello title\"}";
+        DingTalkUtils.sendMessage(robotCode, mobile, appKey, appSecret, msgKey, content);
+    }
+
 }
