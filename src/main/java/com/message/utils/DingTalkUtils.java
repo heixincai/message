@@ -92,6 +92,16 @@ public class DingTalkUtils {
         return userId;
     }
 
+    /**
+     * 批量发送单聊消息，官方文档：https://open.dingtalk.com/document/robots/chatbots-send-one-on-one-chat-messages-in-batches
+     * @param robotCode
+     * @param mobile
+     * @param appKey
+     * @param appSecret
+     * @param msgKey
+     * @param content
+     * @throws Exception
+     */
     public static void sendMessage(String robotCode, String mobile, String appKey, String appSecret, String msgKey, String content) throws Exception {
         //获取Token
         String accessToken = getAccessToken(appKey, appSecret);
