@@ -16,7 +16,9 @@ import com.dingtalk.api.response.OapiV2UserGetbymobileResponse;
 import org.apache.commons.lang.StringUtils;
 
 public class DingTalkUtils {
-    private static final TimedCache<String, String> tokenCache = CacheUtil.newTimedCache(7200000);
+
+    //钉钉的Token是2小时过期，这里缓存设置小于2小时
+    private static final TimedCache<String, String> tokenCache = CacheUtil.newTimedCache(7000000);
 
     /**
      * 使用 Token 初始化账号Client
