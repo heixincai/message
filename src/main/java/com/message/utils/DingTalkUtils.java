@@ -1,5 +1,7 @@
 package com.message.utils;
 
+import cn.hutool.cache.CacheUtil;
+import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.json.JSONUtil;
 import com.aliyun.dingtalkoauth2_1_0.models.GetAccessTokenResponse;
 import com.aliyun.dingtalkrobot_1_0.models.BatchSendOTOHeaders;
@@ -14,6 +16,8 @@ import com.dingtalk.api.response.OapiV2UserGetbymobileResponse;
 import org.apache.commons.lang.StringUtils;
 
 public class DingTalkUtils {
+    private static final TimedCache<String, String> tokenCache = CacheUtil.newTimedCache(7200000);
+
     /**
      * 使用 Token 初始化账号Client
      * @return Client
@@ -42,7 +46,10 @@ public class DingTalkUtils {
      * @throws Exception
      */
     public static String getAccessToken(String appKey, String appSecret) throws Exception {
-        String token = null;
+        String token = tokenCache.get("token");
+        if (StringUtils.isNotEmpty(token)) {
+            return token;
+        }
         com.aliyun.dingtalkoauth2_1_0.Client client = createClient();
         com.aliyun.dingtalkoauth2_1_0.models.GetAccessTokenRequest getAccessTokenRequest = new com.aliyun.dingtalkoauth2_1_0.models.GetAccessTokenRequest()
                 .setAppKey(appKey)
@@ -60,6 +67,7 @@ public class DingTalkUtils {
                 // err 中含有 code 和 message 属性，可帮助开发定位问题
             }
         }
+        tokenCache.put("token", token);
         return token;
     }
 
