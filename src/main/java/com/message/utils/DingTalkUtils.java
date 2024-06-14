@@ -18,7 +18,7 @@ import org.apache.commons.lang.StringUtils;
 public class DingTalkUtils {
 
     //钉钉的Token是2小时过期，这里缓存设置小于2小时
-    private static final TimedCache<String, String> tokenCache = CacheUtil.newTimedCache(7000000);
+    private static final TimedCache<String, String> ACCESS_TOKEN_CACHE = CacheUtil.newTimedCache(7000000);
 
     /**
      * 使用 Token 初始化账号Client
@@ -48,7 +48,7 @@ public class DingTalkUtils {
      * @throws Exception
      */
     public static String getAccessToken(String appKey, String appSecret) throws Exception {
-        String token = tokenCache.get("token");
+        String token = ACCESS_TOKEN_CACHE.get("token");
         if (StringUtils.isNotEmpty(token)) {
             return token;
         }
@@ -69,7 +69,7 @@ public class DingTalkUtils {
                 // err 中含有 code 和 message 属性，可帮助开发定位问题
             }
         }
-        tokenCache.put("token", token);
+        ACCESS_TOKEN_CACHE.put("token", token);
         return token;
     }
 
